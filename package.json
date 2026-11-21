@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "dependencies": {
+    "@expo-google-fonts/roboto": "^0.4.3",
     "@expo/ui": "~58.0.29",
+    "@expo/vector-icons": "^15.0.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.7",
     "expo": "~58.0.26",
     "expo-constants": "~58.0.16",
     "expo-device": "~58.0.5",
@@ -17,6 +21,7 @@
     "expo-symbols": "~58.0.5",
     "expo-system-ui": "~58.0.7",
     "expo-web-browser": "~58.1.0",
+    "prettier": "^3.10.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-native": "0.88.1",
@@ -29,15 +34,19 @@
   },
   "devDependencies": {
     "@types/react": "~19.3.0",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~58.0.4",
     "typescript": "~6.0.3"
   },
   "scripts": {
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
+    "verifier": "node scripts/verifier-convention.mjs"
   },
   "private": true
 }
