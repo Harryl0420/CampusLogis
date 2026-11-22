@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
+import { router } from "expo-router"; // Navigation entre écrans (détaillée au chapitre 4)
 import { StyleSheet, View } from "react-native"; // Conteneur et outils
 import { Badge } from "@/composants/Badge"; // Pilule d'information
 import { Bouton } from "@/composants/Bouton"; // Composant Bouton
@@ -64,7 +65,11 @@ export function EcranBienvenue() {
         </View>
       </View>
       <View style={styles.actions} /* Les deux boutons et la mention, en bas */>
-        <Bouton libelle="Se connecter" icone="arrow-forward" /* Sera relié à l'écran Connexion à l'étape 11 */ />
+        <Bouton
+          libelle="Se connecter"
+          icone="arrow-forward"
+          onPress={() => router.push("/connexion")} /* Ouvre l'écran 2. Connexion */
+        />
         <Bouton libelle="Créer un compte" type="secondaire" /* Sera relié à l'écran Inscription à l'étape 12 */ />
         <Texte variante="legende" couleur="texteSecondaire" style={styles.centre}>
           Plateforme sécurisée pour étudiants & universités
