@@ -3,6 +3,7 @@ import { Ecran } from "@/composants/Ecran"; // Cadre commun des écrans
 import { Texte, type VarianteTexte } from "@/composants/Texte"; // Texte au style de la maquette
 import { espacements, rayons, type NomCouleur } from "@/theme/tokens"; // Mesures et noms de couleur
 import { useTheme } from "@/theme/useTheme"; // Palette du mode actif
+import { Bouton } from "@/composants/Bouton"; // Composant Bouton
 
 const noms: NomCouleur[] = [
   "fond",
@@ -33,6 +34,17 @@ export function EcranVitrine() {
     <Ecran>
       <ScrollView contentContainerStyle={styles.contenu} /* Pile des sections, la plus récente en haut */>
         {/* LES SECTIONS DES ÉTAPES 7, 8 ET 9 SE COLLERONT ICI */}
+        <View style={styles.section} testID="section-boutons" /* Section 3 : les six variantes du Bouton */>
+          <Texte variante="sousTitre" couleur="primaire">
+            Bouton
+          </Texte>
+          <Bouton libelle="Primaire, Normal" />
+          <Bouton libelle="Primaire, Pressé" etat="presse" />
+          <Bouton libelle="Primaire, Désactivé" etat="desactive" />
+          <Bouton libelle="Secondaire, Normal" type="secondaire" />
+          <Bouton libelle="Secondaire, Pressé" type="secondaire" etat="presse" />
+          <Bouton libelle="Secondaire, Désactivé" type="secondaire" etat="desactive" />
+        </View>
         <View style={styles.section} testID="section-textes" /* Section 2 : les styles de texte */>
           <Texte variante="sousTitre" couleur="primaire">
             Styles de texte
