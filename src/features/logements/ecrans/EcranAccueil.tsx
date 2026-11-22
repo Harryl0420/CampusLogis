@@ -106,8 +106,8 @@ export function EcranAccueil() {
     resultats,
   } = useLogements(logements); // Toute la logique est dans le hook
   return (
-    // La barre d'onglets sera ajoutée par Expo Router au chapitre 4
-    <Ecran>
+    // Seul le bord haut est protégé : en bas, la barre d'onglets gère la zone de sécurité
+    <Ecran bords={["top"]}>
       <View style={[styles.bandeau, { backgroundColor: palette.surface }]} /* Recherche et filtres, fixes */>
         <BarreRecherche valeur={recherche} surChangement={setRecherche} />
         <Filtres

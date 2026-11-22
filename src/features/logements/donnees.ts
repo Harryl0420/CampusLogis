@@ -3,6 +3,7 @@ import type { Bailleur, Equipement, Logement, TypeLogement } from "./types"; // 
 
 export const typesLogement: readonly TypeLogement[] = ["Studio", "Chambre", "Colocation"]; // Ordre du filtre « Type »
 export const distanceProche = 1000; // Seuil du filtre « < 1 km », en mètres
+export const favorisInitiaux: readonly string[] = ["l1"]; // Logements aimés au départ, comme dans la maquette
 
 const photo1 = require("../../../assets/images/logements/logement-1.jpg"); // Studio moderne
 const photo2 = require("../../../assets/images/logements/logement-2.jpg"); // Chambre « Coup de cœur »

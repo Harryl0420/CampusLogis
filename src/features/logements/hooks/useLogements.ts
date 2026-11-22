@@ -1,5 +1,5 @@
 import { useState } from "react"; // État local
-import { distanceProche, typesLogement } from "../donnees"; // Seuil et ordre des types
+import { distanceProche, favorisInitiaux, typesLogement } from "../donnees"; // Seuil, favoris de départ et ordre des types
 import type { Logement, TypeLogement } from "../types"; // Types de la fonctionnalité
 
 // Hook personnalisé : regroupe la recherche, les trois filtres, les favoris et le calcul de la liste à afficher
@@ -9,7 +9,7 @@ export function useLogements(logements: readonly Logement[]) {
   const [triParPrix, setTriParPrix] = useState(false); // Filtre « Prix » : du moins cher au plus cher
   const [procheSeulement, setProcheSeulement] = useState(false); // Filtre « < 1 km »
   const [type, setType] = useState<TypeLogement | null>(null); // Filtre « Type », aucun au départ
-  const [favoris, setFavoris] = useState<readonly string[]>(["l1"]); // Identifiants aimés : le 1er, comme la maquette
+  const [favoris, setFavoris] = useState<readonly string[]>(favorisInitiaux); // Identifiants aimés : même liste de départ que l'onglet Favoris
 
   const basculerTriParPrix = () => setTriParPrix((actuel) => !actuel); // Retoucher le filtre l'annule
   const basculerProche = () => setProcheSeulement((actuel) => !actuel); // Retoucher le filtre l'annule
