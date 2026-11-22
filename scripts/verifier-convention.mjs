@@ -70,7 +70,7 @@ for (const chemin of fichiers(src)) {
     const code = texte.replace(/\/\/.*$/, ""); // On ignore les commentaires de fin de ligne
     for (const [motif, message] of interdits) if (motif.test(code)) signaler(erreurs, chemin, n, message);
     const photoFactice = /couleurPhoto/.test(code); // Couleur de remplacement d'une photo : elle ne change pas avec le mode
-    if (!dansTheme && !photoFactice && /["']#[0-9A-Fa-f]{3,8}["']/.test(code)) {
+    if (!dansTheme && /\b(margin|padding|gap|fontSize|borderRadius)\w*\s*:\s*[1-9]/.test(code)) {
       signaler(
         estEcran ? erreurs : aVerifier,
         chemin,

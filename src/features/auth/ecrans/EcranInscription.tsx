@@ -115,6 +115,7 @@ export function EcranInscription() {
             libelle="Créer mon compte" // Calque Libellé
             icone="arrow-forward" // Flèche de la maquette
             etat={formulaireValide ? "normal" : "desactive"} // Désactivé tant que le formulaire n'est pas valide
+            onPress={() => router.push("/accueil")} // Ouvre l'écran 4. Accueil (le vrai compte arrive au chapitre 5)
           />
         </ScrollView>
         {clavierVisible ? null : ( // Rendu conditionnel : le lien est masqué quand le clavier est ouvert

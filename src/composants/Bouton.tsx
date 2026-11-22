@@ -14,14 +14,23 @@ type Props = Omit<PressableProps, "style" | "children"> & {
   libelle: string; // Calque « Libellé » de la maquette
   type?: TypeBouton; // Primaire par défaut
   etat?: EtatBouton; // Normal par défaut
-  icone?: NomIcone; // Icône facultative après le libellé, comme la flèche de « Se connecter → »
+  icone?: NomIcone; // Icône facultative, comme la flèche de « Se connecter → »
+  positionIcone?: "debut" | "fin"; // Icône après le libellé par défaut, ou avant (« Réserver une visite »)
 }; // Fin des props
 
 // Composant Bouton : les variantes Type et État de Figma deviennent les props type et etat
-export function Bouton({ libelle, type = "primaire", etat = "normal", icone, ...autres }: Props) {
+export function Bouton({
+  libelle,
+  type = "primaire",
+  etat = "normal",
+  icone,
+  positionIcone = "fin",
+  ...autres
+}: Props) {
   const { palette } = useTheme(); // Palette claire ou sombre
   const desactive = etat === "desactive"; // Vrai si le bouton ne doit pas réagir
   const couleurTexte: NomCouleur = desactive ? "texteSecondaire" : type === "primaire" ? "surPrimaire" : "texte"; // Couleur du libellé et de l'icône
+  const pictogramme = icone ? <Ionicons name={icone} size={20} color={palette[couleurTexte]} /> : null; // Icône facultative
   return (
     // Pressable fournit l'état « pressé » pendant que le doigt est posé
     <Pressable
@@ -48,10 +57,11 @@ export function Bouton({ libelle, type = "primaire", etat = "normal", icone, ...
       }}
       {...autres} // onPress et les autres props transmises par l'écran
     >
+      {positionIcone === "debut" ? pictogramme : null}
       <Texte variante="libelle" couleur={couleurTexte} numberOfLines={1} /* Calque Libellé, sur une seule ligne */>
         {libelle}
       </Texte>
-      {icone ? <Ionicons name={icone} size={20} color={palette[couleurTexte]} /> : null}
+      {positionIcone === "fin" ? pictogramme : null}
     </Pressable>
   ); // Fin du rendu
 }
@@ -64,7 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: espacements.m, // Marges intérieures m à gauche et à droite
     paddingVertical: espacements.s, // Marges intérieures s en haut et en bas
     borderRadius: rayons.moyen, // Rayon moyen (12)
-    flexDirection: "row", // Libellé puis icône, côte à côte
+    flexDirection: "row", // Icône et libellé côte à côte
     gap: espacements.s, // Écart s entre le libellé et l'icône
     alignItems: "center", // Contenu centré verticalement
     justifyContent: "center", // Contenu centré horizontalement

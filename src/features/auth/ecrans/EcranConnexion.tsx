@@ -77,6 +77,7 @@ export function EcranConnexion() {
             <Bouton
               libelle="Se connecter" // Calque Libellé
               etat={formulaireRempli ? "normal" : "desactive"} // Prévention des erreurs : désactivé tant qu'un champ est vide
+              onPress={() => router.push("/accueil")} // Ouvre l'écran 4. Accueil (la vraie connexion arrive au chapitre 5)
             />
           </View>
           <Lien
