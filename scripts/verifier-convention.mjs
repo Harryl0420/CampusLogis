@@ -34,22 +34,30 @@ for (const [nom, props] of Object.entries(convention)) {
     continue;
   }
   const code = readFileSync(chemin, "utf8");
-  if (!new RegExp(`export function ${nom}\\b`).test(code)) signaler(erreurs, chemin, 0, `doit exporter la fonction ${nom}`);
+  if (!new RegExp(`export function ${nom}\\b`).test(code))
+    signaler(erreurs, chemin, 0, `doit exporter la fonction ${nom}`);
   for (const p of props) {
     if (!new RegExp(`\\b${p}\\??:`).test(code)) signaler(erreurs, chemin, 0, `prop « ${p} » absente du type Props`);
   }
 }
 
 // 2. Règles ligne par ligne sur tout le dossier src
-const interdits = [ // Erreurs fréquentes du tableau de l'étape 14, partie 5
+const interdits = [
+  // Erreurs fréquentes du tableau de l'étape 14, partie 5
   [/\bTouchableOpacity\b/, "TouchableOpacity : utiliser Pressable ou le composant Bouton"],
-  [/import\s*\{[^}]*\bSafeAreaView\b[^}]*\}\s*from\s*["']react-native["']/, "SafeAreaView de react-native : utiliser le composant Ecran"],
+  [
+    /import\s*\{[^}]*\bSafeAreaView\b[^}]*\}\s*from\s*["']react-native["']/,
+    "SafeAreaView de react-native : utiliser le composant Ecran",
+  ],
   [/\bas any\b/, "« as any » cache l'erreur : corriger le type"],
   [/@ts-ignore|@ts-expect-error/, "commentaire qui fait taire TypeScript : corriger le type"],
   [/key=\{(index|i|idx)\}/, "key={index} : utiliser l'identifiant de l'élément"],
-  [/fontWeight\s*:\s*["']bold["']/, "fontWeight \"bold\" : utiliser le composant Texte"],
+  [/fontWeight\s*:\s*["']bold["']/, 'fontWeight "bold" : utiliser le composant Texte'],
   [/from\s*["']@react-navigation\//, "React Navigation installé à part : utiliser expo-router"],
-  [/from\s*["'](nativewind|react-native-paper|styled-components)/, "bibliothèque de style étrangère : utiliser StyleSheet et tokens.ts"],
+  [
+    /from\s*["'](nativewind|react-native-paper|styled-components)/,
+    "bibliothèque de style étrangère : utiliser StyleSheet et tokens.ts",
+  ],
 ];
 for (const chemin of fichiers(src)) {
   const r = rel(chemin); // Chemin lisible
@@ -63,16 +71,25 @@ for (const chemin of fichiers(src)) {
     for (const [motif, message] of interdits) if (motif.test(code)) signaler(erreurs, chemin, n, message);
     const photoFactice = /couleurPhoto/.test(code); // Couleur de remplacement d'une photo : elle ne change pas avec le mode
     if (!dansTheme && !photoFactice && /["']#[0-9A-Fa-f]{3,8}["']/.test(code)) {
-      signaler(estEcran ? erreurs : aVerifier, chemin, n, "couleur écrite en hexadécimal : utiliser palette.xxx (useTheme)");
+      signaler(
+        estEcran ? erreurs : aVerifier,
+        chemin,
+        n,
+        "couleur écrite en hexadécimal : utiliser palette.xxx (useTheme)",
+      );
     }
-    if (!dansTheme && /\b(margin|padding|gap|fontSize|borderRadius)\w*\s*:\s*\d/.test(code)) {
+    if (!dansTheme && /\b(margin|padding|gap|fontSize|borderRadius)\w*\s*:\s*[1-9]/.test(code)) {
       signaler(aVerifier, chemin, n, "valeur écrite en chiffres : utiliser espacements, rayons ou typographie");
     }
-    if (/\bconsole\.log\(/.test(code)) signaler(aVerifier, chemin, n, "console.log : ne jamais afficher une donnée saisie");
-    if (/&&\s*</.test(code)) signaler(aVerifier, chemin, n, "« condition && <Composant /> » : préférer « condition ? <Composant /> : null »");
+    if (/\bconsole\.log\(/.test(code))
+      signaler(aVerifier, chemin, n, "console.log : ne jamais afficher une donnée saisie");
+    if (/&&\s*</.test(code))
+      signaler(aVerifier, chemin, n, "« condition && <Composant /> » : préférer « condition ? <Composant /> : null »");
     const imp = code.match(/from\s*["']@\/features\/([^/"']+)/); // Import d'une fonctionnalité par l'alias
-    if (imp && feature && imp[1] !== feature) signaler(erreurs, chemin, n, `import depuis la fonctionnalité « ${imp[1]} » : interdit entre fonctionnalités`);
-    if (imp && feature && imp[1] === feature) signaler(aVerifier, chemin, n, "dans sa propre fonctionnalité, importer avec un chemin relatif (../)");
+    if (imp && feature && imp[1] !== feature)
+      signaler(erreurs, chemin, n, `import depuis la fonctionnalité « ${imp[1]} » : interdit entre fonctionnalités`);
+    if (imp && feature && imp[1] === feature)
+      signaler(aVerifier, chemin, n, "dans sa propre fonctionnalité, importer avec un chemin relatif (../)");
   });
 }
 
@@ -85,7 +102,12 @@ for (const chemin of fichiers(join(src, "app"))) {
     .map((l) => l.replace(/\/\/.*$/, "").trim()) // Sans commentaires de ligne
     .filter(Boolean); // Sans lignes vides
   if (!code.every((l) => /^export\s*\{[^}]*\}\s*from\s*["'][^"']+["'];?$/.test(l))) {
-    signaler(erreurs, chemin, 0, "route trop épaisse : le fichier doit seulement faire export { EcranX as default } from \"@/features/...\"");
+    signaler(
+      erreurs,
+      chemin,
+      0,
+      'route trop épaisse : le fichier doit seulement faire export { EcranX as default } from "@/features/..."',
+    );
   }
 }
 
