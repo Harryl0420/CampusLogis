@@ -18,6 +18,7 @@ import { Filtres } from "../composants/Filtres"; // Rangée de filtres
 import { Note } from "../composants/Note"; // « ★ 4.9 »
 import { logements } from "../donnees"; // Données fictives
 import { useLogements } from "../hooks/useLogements"; // Recherche, filtres, favoris et liste calculée
+import { router } from "expo-router"; // Navigation entre écrans
 
 // Espace entre deux cartes de la liste
 function Separateur() {
@@ -138,6 +139,7 @@ export function EcranAccueil() {
           return (
             <Carte
               titre={item.nom} // Calque Titre : type et quartier
+              onPress={() => router.push({ pathname: "/logement/[id]", params: { id: item.id } })} // Ouvre l'écran 5. Détail de ce logement
               info={formaterPrix(item.prix)} // Calque Info : prix par mois
               detailInfo="/ mois" // Petit texte après le prix
               photos={item.photos} // Carrousel de photos
