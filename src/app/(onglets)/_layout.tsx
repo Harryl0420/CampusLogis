@@ -11,7 +11,7 @@ export default function OngletsLayout() {
   const { palette } = useTheme(); // Palette claire ou sombre
   const marges = useSafeAreaInsets(); // Zones de sécurité : marges.bottom est la hauteur de la barre de gestes
   return (
-    // Chaque Tabs.Screen correspond à un fichier du dossier (onglets)
+    // Layout du groupe (onglets) : le composant « Barre d'onglets » de la maquette, avec ses quatre onglets
     <Tabs
       screenOptions={{
         // Réglages communs à tous les onglets
@@ -67,6 +67,20 @@ export default function OngletsLayout() {
             />
           ),
         }} // color : primaire ou texteSecondaire
+      />
+
+      <Tabs.Screen
+        name="profil" // Fichier profil.tsx
+        options={{
+          title: "Profil",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={24}
+              color={focused ? palette.primaire : palette.texteSecondaire}
+            />
+          ),
+        }} // Icône pleine si l'onglet est actif, contour sinon
       />
     </Tabs>
   ); // Fin du rendu
