@@ -18,7 +18,7 @@ import { Filtres } from "../composants/Filtres"; // Rangée de filtres
 import { Note } from "../composants/Note"; // « ★ 4.9 »
 import { logements } from "../donnees"; // Données fictives
 import { useLogements } from "../hooks/useLogements"; // Recherche, filtres, favoris et liste calculée
-import { router } from "expo-router"; // Navigation entre écrans
+import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
 
 // Espace entre deux cartes de la liste
 function Separateur() {
@@ -91,6 +91,7 @@ function AlerteNouveautes() {
 // Écran 4. Accueil : recherche et filtres fixes, puis la liste des logements qui défile
 export function EcranAccueil() {
   const { palette } = useTheme(); // Palette claire ou sombre
+  const router = useRouter();
   const {
     recherche,
     setRecherche,

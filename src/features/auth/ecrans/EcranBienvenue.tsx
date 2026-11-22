@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
-import { router } from "expo-router"; // Navigation entre écrans (détaillée au chapitre 4)
+import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
 import { StyleSheet, View } from "react-native"; // Conteneur et outils
 import { Badge } from "@/composants/Badge"; // Pilule d'information
 import { Bouton } from "@/composants/Bouton"; // Composant Bouton
@@ -13,6 +13,7 @@ import { avecOpacite } from "@/utils/couleurs"; // Fond rose très pâle de l'il
 // Écran 1. Bienvenue : marque, illustration et accroche au centre, deux boutons dans la zone du pouce
 export function EcranBienvenue() {
   const { palette } = useTheme(); // Palette claire ou sombre
+  const router = useRouter(); // Objet de navigation : Expo recommande ce hook dans les composants
   return (
     // Deux blocs : la présentation, qui prend toute la place libre, puis les actions
     <Ecran>

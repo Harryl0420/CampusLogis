@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
-import { router } from "expo-router"; // Navigation entre écrans
+import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
 import { useState } from "react"; // État local
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native"; // Composants et outils
 import { Badge } from "@/composants/Badge"; // Pilule « Étape 1 sur 2 »
@@ -20,6 +20,7 @@ const longueurMin = 8; // Longueur minimale du mot de passe
 // Écran 3. Inscription : choix du rôle, trois champs, conditions, bouton, puis lien vers la connexion
 export function EcranInscription() {
   const { palette } = useTheme(); // Palette claire ou sombre
+  const router = useRouter(); // Objet de navigation : Expo recommande ce hook dans les composants
   const [role, setRole] = useState<Role>("etudiant"); // Rôle choisi, Étudiant au départ comme la maquette
   const [nom, setNom] = useState(""); // Nom complet saisi
   const [telephone, setTelephone] = useState(""); // Numéro saisi
@@ -115,7 +116,7 @@ export function EcranInscription() {
             libelle="Créer mon compte" // Calque Libellé
             icone="arrow-forward" // Flèche de la maquette
             etat={formulaireValide ? "normal" : "desactive"} // Désactivé tant que le formulaire n'est pas valide
-            onPress={() => router.push("/accueil")} // Ouvre l'écran 4. Accueil (le vrai compte arrive au chapitre 5)
+            onPress={() => router.replace("/accueil")} // Ouvre l'écran 4. Accueil (le vrai compte arrive au chapitre 5)
           />
         </ScrollView>
         {clavierVisible ? null : ( // Rendu conditionnel : le lien est masqué quand le clavier est ouvert

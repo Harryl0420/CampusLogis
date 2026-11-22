@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
-import { router, useLocalSearchParams } from "expo-router"; // Navigation et lecture du paramètre de l'adresse
+import { useLocalSearchParams, useRouter } from "expo-router"; // Paramètres de l'adresse et navigation
 import { useState } from "react"; // État local
 import { ScrollView, Share, StyleSheet, View } from "react-native"; // Défilement, partage, conteneur et outils
 import { Badge } from "@/composants/Badge"; // Pastilles d'équipements et badge « Logement vérifié »
@@ -21,6 +21,7 @@ import { logements } from "../donnees"; // Données fictives
 // Écran 5. Détail : photos, titre, distance, prix, équipements, bailleur, campus, puis barre de réservation fixe
 export function EcranDetail() {
   const { palette } = useTheme(); // Palette claire ou sombre
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>(); // Paramètre de l'adresse : « l1 » dans /logement/l1
   const [favori, setFavori] = useState(false); // Cœur du Détail (partagé avec l'Accueil au chapitre 5)
   const logement = logements.find((l) => l.id === id); // Logement correspondant, ou undefined
