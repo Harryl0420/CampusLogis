@@ -6,6 +6,8 @@ import { useTheme } from "@/theme/useTheme"; // Palette du mode actif
 import { Bouton } from "@/composants/Bouton"; // Composant Bouton
 import { ChampSaisie } from "@/composants/ChampSaisie"; // Composant Champ de saisie
 import { Lien } from "@/composants/Lien"; // Lien de 48 dp
+import { Carte } from "@/composants/Carte"; // Composant Carte
+import { formaterPrix } from "@/utils/formaterPrix"; // 45000 devient « 45 000 FCFA »
 
 const noms: NomCouleur[] = [
   "fond",
@@ -36,6 +38,36 @@ export function EcranVitrine() {
     <Ecran>
       <ScrollView contentContainerStyle={styles.contenu} /* Pile des sections, la plus récente en haut */>
         {/* LES SECTIONS DES ÉTAPES 7, 8 ET 9 SE COLLERONT ICI */}
+        <View style={styles.section} testID="section-cartes" /* Section 5 : la Carte */>
+          <Texte variante="sousTitre" couleur="primaire">
+            Carte
+          </Texte>
+          <View style={styles.rangee} /* Deux cartes verticales côte à côte */>
+            <Carte
+              titre="Studio · Bonamoussadi" // Calque Titre : type et quartier
+              info={`${formaterPrix(45000)} / mois`} // Calque Info : prix par mois
+              couleurPhoto="#F4A3C0" // Emplacement de la photo
+              action={<Bouton libelle="Voir" />} // Calque Action : une instance du Bouton
+            />
+            <Carte
+              titre="Chambre · Ndogbong"
+              info={`${formaterPrix(30000)} / mois`}
+              couleurPhoto="#A3C4F4" /* Sans action */
+            />
+          </View>
+          <Carte
+            disposition="horizontale" // Photo à gauche, textes à droite
+            titre="Appartement · Makepe" // Calque Titre
+            info={`${formaterPrix(80000)} / mois`} // Calque Info
+            couleurPhoto="#C4F4A3" // Emplacement de la photo
+            complement={
+              <Texte variante="legende" couleur="texteSecondaire">
+                À 800 m du campus
+              </Texte>
+            } // Calque ajouté par le sujet
+          />
+        </View>
+
         <View style={styles.section} testID="section-champs" /* Section 4 : le Champ de saisie et le Lien */>
           <Texte variante="sousTitre" couleur="primaire">
             Champ de saisie et lien
