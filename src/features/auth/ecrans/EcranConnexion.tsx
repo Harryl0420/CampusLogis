@@ -81,9 +81,10 @@ export function EcranConnexion() {
           </View>
           <Lien
             prefixe="Vous n'avez pas de compte ?" // Début de phrase en gris
-            libelle="Créer un compte" // Partie touchable, reliée à l'Inscription à l'étape 12
+            libelle="Créer un compte" // Partie touchable
             variante="legende" // Taille de la maquette
             alignement="center" // Centré
+            onPress={() => router.push("/inscription")} // Ouvre l'écran 3. Inscription
           />
           {clavierVisible ? null : ( // Rendu conditionnel : la carte d'information disparaît quand le clavier est ouvert
             <View style={[styles.info, { backgroundColor: palette.surface, borderColor: palette.bordure }]}>

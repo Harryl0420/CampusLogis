@@ -70,7 +70,11 @@ export function EcranBienvenue() {
           icone="arrow-forward"
           onPress={() => router.push("/connexion")} /* Ouvre l'écran 2. Connexion */
         />
-        <Bouton libelle="Créer un compte" type="secondaire" /* Sera relié à l'écran Inscription à l'étape 12 */ />
+        <Bouton
+          libelle="Créer un compte"
+          type="secondaire"
+          onPress={() => router.push("/inscription")} /* Ouvre l'écran 3. Inscription */
+        />
         <Texte variante="legende" couleur="texteSecondaire" style={styles.centre}>
           Plateforme sécurisée pour étudiants & universités
         </Texte>
