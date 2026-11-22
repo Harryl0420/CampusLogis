@@ -1,2 +1,2 @@
-// Route « / » provisoire : elle affiche la vitrine des tokens et des composants jusqu'à l'étape 10
-export { EcranVitrine as default } from "@/features/vitrine/ecrans/EcranVitrine"; // La vitrine est rangée dans sa propre fonctionnalité
+// Route « / » : le premier écran affiché au lancement de l'application
+export { EcranBienvenue as default } from "@/features/auth/ecrans/EcranBienvenue"; // Le fichier de route reste mince : il désigne l'écran à afficher
