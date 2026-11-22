@@ -4,6 +4,8 @@ import { Texte, type VarianteTexte } from "@/composants/Texte"; // Texte au styl
 import { espacements, rayons, type NomCouleur } from "@/theme/tokens"; // Mesures et noms de couleur
 import { useTheme } from "@/theme/useTheme"; // Palette du mode actif
 import { Bouton } from "@/composants/Bouton"; // Composant Bouton
+import { ChampSaisie } from "@/composants/ChampSaisie"; // Composant Champ de saisie
+import { Lien } from "@/composants/Lien"; // Lien de 48 dp
 
 const noms: NomCouleur[] = [
   "fond",
@@ -34,6 +36,16 @@ export function EcranVitrine() {
     <Ecran>
       <ScrollView contentContainerStyle={styles.contenu} /* Pile des sections, la plus récente en haut */>
         {/* LES SECTIONS DES ÉTAPES 7, 8 ET 9 SE COLLERONT ICI */}
+        <View style={styles.section} testID="section-champs" /* Section 4 : le Champ de saisie et le Lien */>
+          <Texte variante="sousTitre" couleur="primaire">
+            Champ de saisie et lien
+          </Texte>
+          <ChampSaisie etiquette="Normal" valeur="" placeholder="Texte d'exemple" />
+          <ChampSaisie etiquette="Focus" valeur="Awa Ngono" etat="focus" />
+          <ChampSaisie etiquette="Erreur" valeur="677" etat="erreur" message="Le numéro doit contenir 9 chiffres" />
+          <Lien libelle="Mot de passe oublié ?" />
+        </View>
+
         <View style={styles.section} testID="section-boutons" /* Section 3 : les six variantes du Bouton */>
           <Texte variante="sousTitre" couleur="primaire">
             Bouton
