@@ -1,6 +1,8 @@
+import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
 import { Pressable, StyleSheet, type PressableProps } from "react-native"; // Zone touchable et outils de style
+import type { NomIcone } from "./icones"; // Type des noms d'icônes
 import { Texte } from "./Texte"; // Texte au style de la maquette
-import { espacements, rayons, tailleTactileMin } from "@/theme/tokens"; // Mesures de la maquette
+import { espacements, rayons, tailleTactileMin, type NomCouleur } from "@/theme/tokens"; // Mesures et noms de couleur
 import { useTheme } from "@/theme/useTheme"; // Couleurs du mode actif
 import { avecOpacite } from "@/utils/couleurs"; // Opacité d'une couleur, comme dans Figma
 
@@ -12,14 +14,14 @@ type Props = Omit<PressableProps, "style" | "children"> & {
   libelle: string; // Calque « Libellé » de la maquette
   type?: TypeBouton; // Primaire par défaut
   etat?: EtatBouton; // Normal par défaut
+  icone?: NomIcone; // Icône facultative après le libellé, comme la flèche de « Se connecter → »
 }; // Fin des props
 
 // Composant Bouton : les variantes Type et État de Figma deviennent les props type et etat
-export function Bouton({ libelle, type = "primaire", etat = "normal", ...autres }: Props) {
-  // Valeurs par défaut
+export function Bouton({ libelle, type = "primaire", etat = "normal", icone, ...autres }: Props) {
   const { palette } = useTheme(); // Palette claire ou sombre
   const desactive = etat === "desactive"; // Vrai si le bouton ne doit pas réagir
-  const couleurTexte = desactive ? "texteSecondaire" : type === "primaire" ? "surPrimaire" : "primaire"; // Couleur du libellé
+  const couleurTexte: NomCouleur = desactive ? "texteSecondaire" : type === "primaire" ? "surPrimaire" : "texte"; // Couleur du libellé et de l'icône
   return (
     // Pressable fournit l'état « pressé » pendant que le doigt est posé
     <Pressable
@@ -37,10 +39,10 @@ export function Bouton({ libelle, type = "primaire", etat = "normal", ...autres 
         return [
           styles.base,
           {
-            // Variante Type = Secondaire
-            backgroundColor: presse ? avecOpacite(palette.primaire, 0.12) : palette.fond, // Teinte légère quand il est pressé
-            borderWidth: 1.5, // Contour de 1,5 comme dans la maquette
-            borderColor: desactive ? palette.bordure : palette.primaire, // Contour gris s'il est désactivé
+            // Variante Type = Secondaire : fond surface, comme « Créer un compte » de la maquette
+            backgroundColor: presse ? avecOpacite(palette.primaire, 0.12) : palette.surface, // Teinte légère quand il est pressé
+            borderWidth: 1, // Contour de 1
+            borderColor: palette.bordure, // Contour discret, visible surtout en mode sombre
           },
         ]; // Fin du bouton secondaire
       }}
@@ -49,6 +51,7 @@ export function Bouton({ libelle, type = "primaire", etat = "normal", ...autres 
       <Texte variante="libelle" couleur={couleurTexte} numberOfLines={1} /* Calque Libellé, sur une seule ligne */>
         {libelle}
       </Texte>
+      {icone ? <Ionicons name={icone} size={20} color={palette[couleurTexte]} /> : null}
     </Pressable>
   ); // Fin du rendu
 }
@@ -61,7 +64,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: espacements.m, // Marges intérieures m à gauche et à droite
     paddingVertical: espacements.s, // Marges intérieures s en haut et en bas
     borderRadius: rayons.moyen, // Rayon moyen (12)
-    alignItems: "center", // Libellé centré horizontalement
-    justifyContent: "center", // Libellé centré verticalement
+    flexDirection: "row", // Libellé puis icône, côte à côte
+    gap: espacements.s, // Écart s entre le libellé et l'icône
+    alignItems: "center", // Contenu centré verticalement
+    justifyContent: "center", // Contenu centré horizontalement
   }, // Fin du style de base
 }); // Fin des styles
