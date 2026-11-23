@@ -139,7 +139,7 @@ export function EcranAccueil() {
           return (
             <Carte
               titre={item.nom} // Calque Titre : type et quartier
-              onPress={() => router.push({ pathname: "/logement/[id]", params: { id: item.id } })} // Ouvre l'écran 5. Détail de ce logement
+              onPress={() => router.push({ pathname: "/accueil/[id]", params: { id: item.id } })} // Ouvre l'écran 5. Détail dans la pile de l'onglet
               info={formaterPrix(item.prix)} // Calque Info : prix par mois
               detailInfo="/ mois" // Petit texte après le prix
               photos={item.photos} // Carrousel de photos

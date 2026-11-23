@@ -43,7 +43,7 @@ export function EcranFavoris() {
                   {`À ${formaterDistance(logement.distanceMetres)} ${logement.reperage}`}
                 </Texte>
               } // Calque ajouté : distance au repère
-              onPress={() => router.push({ pathname: "/logement/[id]", params: { id: logement.id } })} // Ouvre le Détail
+              onPress={() => router.push({ pathname: "/accueil/[id]", params: { id: logement.id } })} // Passe sur l'onglet Accueil et y ouvre le Détail
             />
           ))
         )}

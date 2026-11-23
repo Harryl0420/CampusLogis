@@ -1,2 +1,2 @@
-// Route « /accueil » : le groupe (onglets) n'apparaît pas dans l'adresse
+// Route « /accueil » : premier écran de la pile de l'onglet Accueil
 export { EcranAccueil as default } from "@/features/logements/ecrans/EcranAccueil"; // L'écran est rangé dans sa fonctionnalité « logements »

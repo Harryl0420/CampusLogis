@@ -30,7 +30,7 @@ export default function OngletsLayout() {
       }} // Fin des réglages communs
     >
       <Tabs.Screen
-        name="accueil" // Fichier accueil.tsx (un dossier accueil/ à l'étape 7)
+        name="accueil" // Dossier accueil/ et sa pile
         options={{
           title: "Accueil",
           tabBarIcon: ({ focused }) => (
