@@ -7,12 +7,13 @@ import { couleursFixes } from "@/theme/couleursFixes"; // Couleur de la photo fa
 import { espacements, rayons } from "@/theme/tokens"; // Mesures de la maquette
 import { useTheme } from "@/theme/useTheme"; // Couleurs du mode actif
 import { LigneProfil } from "../composants/LigneProfil"; // Ligne de réglage
-import { utilisateur } from "../donnees"; // Utilisateur fictif
+import { lireUtilisateur } from "../depot"; // Accès aux données
 
 // Écran 8. Profil : photo, nom, numéro, puis quatre lignes ; la barre d'onglets est ajoutée par le layout (onglets)
 export function EcranProfil() {
   const { palette } = useTheme(); // Palette claire ou sombre
   const router = useRouter(); // Objet de navigation
+  const utilisateur = lireUtilisateur(); // Utilisateur fourni par le dépôt
   return (
     // Seul le bord haut est protégé : la barre d'onglets gère le bas
     <Ecran bords={["top"]}>
