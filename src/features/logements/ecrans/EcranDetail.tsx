@@ -161,7 +161,8 @@ export function EcranDetail() {
           <Bouton
             libelle="Réserver une visite"
             icone="calendar-outline"
-            positionIcone="debut" /* Écran 6. Formulaire, plus tard */
+            positionIcone="debut" // Icône avant le libellé
+            onPress={() => router.push({ pathname: "/demande/[id]", params: { id: logement.id } })} // Ouvre l'écran 6. Formulaire
           />
         </View>
       </View>

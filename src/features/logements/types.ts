@@ -28,6 +28,7 @@ export type Logement = {
   id: string; // Identifiant unique : clé dans les listes et adresse du Détail
   nom: string; // Calque Titre : type et quartier
   type: TypeLogement; // Utilisé par le filtre « Type »
+  ville: string; // Ville du logement : « Douala »
   quartier: string; // Utilisé par la recherche
   prix: number; // Prix par mois en francs CFA, sans espace ni unité
   chargesIncluses: boolean; // « charges comprises » sur le Détail
