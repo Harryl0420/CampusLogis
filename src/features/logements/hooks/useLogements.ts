@@ -1,15 +1,18 @@
 import { useState } from "react"; // État local
-import { distanceProche, favorisInitiaux, typesLogement } from "../donnees"; // Seuil, favoris de départ et ordre des types
-import type { Logement, TypeLogement } from "../types"; // Types de la fonctionnalité
+import { distanceProche } from "../constantes"; // Seuil du filtre « < 1 km »
+import { listerFavoris, listerLogements, listerTypesLogement } from "../depot"; // Accès aux données
+import type { TypeLogement } from "../types"; // Types de la fonctionnalité
 
-// Hook personnalisé : regroupe la recherche, les trois filtres, les favoris et le calcul de la liste à afficher
-export function useLogements(logements: readonly Logement[]) {
-  // Reçoit la liste complète
+// Hook de l'écran 4. Accueil : il lit les données par le dépôt, garde la recherche, les filtres et les favoris, et calcule la liste à afficher
+export function useLogements() {
+  // L'écran ne sait plus d'où viennent les logements
+  const logements = listerLogements(); // Liste complète, fournie par le dépôt
+  const typesLogement = listerTypesLogement(); // Ordre du filtre « Type »
   const [recherche, setRecherche] = useState(""); // Texte tapé dans la barre de recherche
   const [triParPrix, setTriParPrix] = useState(false); // Filtre « Prix » : du moins cher au plus cher
   const [procheSeulement, setProcheSeulement] = useState(false); // Filtre « < 1 km »
   const [type, setType] = useState<TypeLogement | null>(null); // Filtre « Type », aucun au départ
-  const [favoris, setFavoris] = useState<readonly string[]>(favorisInitiaux); // Identifiants aimés : même liste de départ que l'onglet Favoris
+  const [favoris, setFavoris] = useState<readonly string[]>(listerFavoris); // Identifiants aimés, fournis par le dépôt
 
   const basculerTriParPrix = () => setTriParPrix((actuel) => !actuel); // Retoucher le filtre l'annule
   const basculerProche = () => setProcheSeulement((actuel) => !actuel); // Retoucher le filtre l'annule

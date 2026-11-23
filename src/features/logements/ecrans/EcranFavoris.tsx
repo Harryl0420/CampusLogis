@@ -8,13 +8,13 @@ import { espacements } from "@/theme/tokens"; // Mesures de la maquette
 import { useTheme } from "@/theme/useTheme"; // Couleurs du mode actif
 import { formaterDistance } from "@/utils/formaterDistance"; // 350 devient « 350 m »
 import { formaterPrix } from "@/utils/formaterPrix"; // 45000 devient « 45 000 FCFA »
-import { favorisInitiaux, logements } from "../donnees"; // Données fictives
+import { useFavoris } from "../hooks/useFavoris"; // Logements aimés, fournis par le dépôt
 
 // Onglet Favoris : les logements aimés, en cartes horizontales (les favoris partagés avec l'Accueil arrivent avec l'état global)
 export function EcranFavoris() {
   const { palette } = useTheme(); // Palette claire ou sombre
   const router = useRouter(); // Objet de navigation
-  const favoris = logements.filter((l) => favorisInitiaux.includes(l.id)); // Seulement les logements aimés
+  const favoris = useFavoris(); // Seulement les logements aimés
   return (
     // Seul le bord haut est protégé : en bas, la barre d'onglets gère la zone de sécurité
     <Ecran bords={["top"]}>

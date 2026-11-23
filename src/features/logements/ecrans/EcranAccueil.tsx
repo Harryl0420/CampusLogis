@@ -16,7 +16,6 @@ import { BarreRecherche } from "../composants/BarreRecherche"; // Barre de reche
 import { BoutonRond } from "../composants/BoutonRond"; // Cœur posé sur la photo
 import { Filtres } from "../composants/Filtres"; // Rangée de filtres
 import { Note } from "../composants/Note"; // « ★ 4.9 »
-import { logements } from "../donnees"; // Données fictives
 import { useLogements } from "../hooks/useLogements"; // Recherche, filtres, favoris et liste calculée
 import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
 
@@ -104,7 +103,7 @@ export function EcranAccueil() {
     favoris,
     basculerFavori,
     resultats,
-  } = useLogements(logements); // Toute la logique est dans le hook
+  } = useLogements(); // Toute la logique est dans le hook, qui lit les données par le dépôt
   return (
     // Seul le bord haut est protégé : en bas, la barre d'onglets gère la zone de sécurité
     <Ecran bords={["top"]}>

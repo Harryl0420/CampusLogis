@@ -1,8 +1,7 @@
-// Données fictives de la séance 3 : elles seront remplacées par celles du backend à la séance 5
+// Données fictives : seul le fichier depot.ts les lit ; à la séance 5, elles seront remplacées par celles du backend
 import type { Bailleur, Equipement, Logement, TypeLogement } from "./types"; // Types de la fonctionnalité
 
 export const typesLogement: readonly TypeLogement[] = ["Studio", "Chambre", "Colocation"]; // Ordre du filtre « Type »
-export const distanceProche = 1000; // Seuil du filtre « < 1 km », en mètres
 export const favorisInitiaux: readonly string[] = ["l1"]; // Logements aimés au départ, comme dans la maquette
 
 const photo1 = require("../../../assets/images/logements/logement-1.jpg"); // Studio moderne

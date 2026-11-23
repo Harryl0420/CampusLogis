@@ -4,7 +4,7 @@ import type { NomIcone } from "@/composants/icones"; // Type des noms d'icônes
 import { Texte } from "@/composants/Texte"; // Texte au style de la maquette
 import { espacements, rayons, tailleTactileMin, type NomCouleur } from "@/theme/tokens"; // Mesures et noms de couleur
 import { useTheme } from "@/theme/useTheme"; // Couleurs du mode actif
-import { distanceProche } from "../donnees"; // Seuil du filtre de distance
+import { distanceProche } from "../constantes"; // Seuil du filtre de distance
 import type { TypeLogement } from "../types"; // Type du filtre « Type »
 
 type PropsPastille = {

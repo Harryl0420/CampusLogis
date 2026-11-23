@@ -16,7 +16,7 @@ import { formaterPrix } from "@/utils/formaterPrix"; // 45000 devient « 45 000 
 import { BoutonRond } from "../composants/BoutonRond"; // Retour, partager, cœur
 import { CarteBailleur } from "../composants/CarteBailleur"; // Carte du bailleur
 import { Note } from "../composants/Note"; // « ★ 4.9 »
-import { logements } from "../donnees"; // Données fictives
+import { useLogement } from "../hooks/useLogement"; // Le logement de l'adresse, fourni par le dépôt
 
 // Écran 5. Détail : photos, titre, distance, prix, équipements, bailleur, campus, puis barre de réservation fixe
 export function EcranDetail() {
@@ -24,7 +24,7 @@ export function EcranDetail() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>(); // Paramètre de l'adresse : « l1 » dans /logement/l1
   const [favori, setFavori] = useState(false); // Cœur du Détail (partagé avec l'Accueil au chapitre 5)
-  const logement = logements.find((l) => l.id === id); // Logement correspondant, ou undefined
+  const logement = useLogement(id); // Logement correspondant, ou undefined
   const retour = () => (router.canGoBack() ? router.back() : router.replace("/accueil")); // Écran précédent, ou Accueil
 
   if (!logement) {
