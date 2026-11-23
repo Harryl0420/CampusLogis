@@ -1,10 +1,11 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
+import { zodResolver } from "@hookform/resolvers/zod"; // Fait valider le formulaire par un schéma Zod
 import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
-import { useState } from "react"; // État local
+import { Controller, useForm } from "react-hook-form"; // Gestion du formulaire
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native"; // Composants et outils
 import { Badge } from "@/composants/Badge"; // Pilule « Étape 1 sur 2 »
 import { Bouton } from "@/composants/Bouton"; // Composant Bouton
-import { ChampSaisie } from "@/composants/ChampSaisie"; // Composant Champ de saisie
+import { ChampFormulaire } from "@/composants/ChampFormulaire"; // Champ de saisie relié au formulaire
 import { Ecran } from "@/composants/Ecran"; // Cadre commun des écrans
 import { Lien } from "@/composants/Lien"; // Lien de 48 dp de haut
 import { Texte } from "@/composants/Texte"; // Texte au style de la maquette
@@ -13,21 +14,22 @@ import { polices } from "@/theme/polices"; // Graisse des textes en gras
 import { espacements, rayons, tailleTactileMin } from "@/theme/tokens"; // Mesures de la maquette
 import { useTheme } from "@/theme/useTheme"; // Couleurs du mode actif
 import { CarteRole } from "../composants/CarteRole"; // Carte de choix, dans la même fonctionnalité : chemin relatif
-import type { Role } from "../types"; // Type du rôle
+import { schemaInscription, type ValeursInscription } from "../schemas"; // Règles du formulaire et type des valeurs
 
-const longueurMin = 8; // Longueur minimale du mot de passe
+const valeursDeDepart: ValeursInscription = { role: "etudiant", nom: "", telephone: "", motDePasse: "" }; // Étudiant choisi au départ, comme la maquette ; le type garde « etudiant » comme valeur du choix
 
 // Écran 3. Inscription : choix du rôle, trois champs, conditions, bouton, puis lien vers la connexion
 export function EcranInscription() {
   const { palette } = useTheme(); // Palette claire ou sombre
   const router = useRouter(); // Objet de navigation : Expo recommande ce hook dans les composants
-  const [role, setRole] = useState<Role>("etudiant"); // Rôle choisi, Étudiant au départ comme la maquette
-  const [nom, setNom] = useState(""); // Nom complet saisi
-  const [telephone, setTelephone] = useState(""); // Numéro saisi
-  const [motDePasse, setMotDePasse] = useState(""); // Mot de passe saisi
   const clavierVisible = useClavierVisible(); // Hook personnalisé
-  const motDePasseTropCourt = motDePasse.length > 0 && motDePasse.length < longueurMin; // Entre 1 et 7 caractères : erreur
-  const formulaireValide = nom.trim().length > 0 && telephone.length > 0 && motDePasse.length >= longueurMin; // Recalculé à chaque frappe
+  const { control, handleSubmit } = useForm({
+    // Le formulaire et ses outils
+    resolver: zodResolver(schemaInscription), // Validation par le schéma Zod
+    defaultValues: valeursDeDepart, // Valeurs du formulaire vide
+    mode: "onTouched", // Un champ est validé quand on le quitte, puis à chaque frappe
+  }); // Fin de useForm
+  const creerCompte = () => void handleSubmit(() => router.replace("/accueil"))(); // Données valides : les onglets remplacent l'inscription (l'envoi au serveur arrive à la séance 5)
   const retour = () => (router.canGoBack() ? router.back() : router.replace("/")); // Écran précédent, ou Bienvenue
   return (
     // L'en-tête reste fixe, le formulaire défile et remonte avec le clavier
@@ -58,49 +60,54 @@ export function EcranInscription() {
             <Texte variante="legende" couleur="texteSecondaire" style={styles.surTitre}>
               VOUS ÊTES ?
             </Texte>
-            <View style={styles.roles} accessibilityRole="radiogroup" /* Deux cartes côte à côte */>
-              <CarteRole
-                titre="Étudiant" // Calque Titre
-                sousTitre="Je cherche" // Calque Sous-titre
-                icone="school" // Icône de la maquette
-                choisie={role === "etudiant"} // Mise en avant si choisie
-                surChoix={() => setRole("etudiant")} // Choisit le rôle Étudiant
-              />
-              <CarteRole
-                titre="Bailleur" // Calque Titre
-                sousTitre="Je loue" // Calque Sous-titre
-                icone="key-outline" // Icône de la maquette
-                choisie={role === "bailleur"} // Mise en avant si choisie
-                surChoix={() => setRole("bailleur")} // Choisit le rôle Bailleur
-              />
-            </View>
+            <Controller
+              control={control} // Le formulaire
+              name="role" // Champ du schéma
+              render={({ field }) => (
+                // Les deux cartes forment un seul champ : un choix parmi deux
+                <View style={styles.roles} accessibilityRole="radiogroup" /* Deux cartes côte à côte */>
+                  <CarteRole
+                    titre="Étudiant" // Calque Titre
+                    sousTitre="Je cherche" // Calque Sous-titre
+                    icone="school" // Icône de la maquette
+                    choisie={field.value === "etudiant"} // Mise en avant si choisie
+                    surChoix={() => field.onChange("etudiant")} // Le toucher change la valeur du champ
+                  />
+                  <CarteRole
+                    titre="Bailleur" // Calque Titre
+                    sousTitre="Je loue" // Calque Sous-titre
+                    icone="key-outline" // Icône de la maquette
+                    choisie={field.value === "bailleur"} // Mise en avant si choisie
+                    surChoix={() => field.onChange("bailleur")} // Le toucher change la valeur du champ
+                  />
+                </View>
+              )}
+            />
           </View>
-          <ChampSaisie
+          <ChampFormulaire
+            control={control} // Le formulaire
+            nom="nom" // Champ du schéma
             etiquette="Nom complet" // Calque Étiquette
-            valeur={nom} // Valeur de l'état
-            onChangeText={setNom} // Met l'état à jour à chaque frappe
             autoCapitalize="words" // Majuscule à chaque mot
             placeholder="ex. Marc Bella" // Exemple de la maquette
             icone="person-outline" // Icône de la maquette
           />
-          <ChampSaisie
+          <ChampFormulaire
+            control={control} // Le formulaire
+            nom="telephone" // Champ du schéma
             etiquette="Numéro de téléphone" // Calque Étiquette
-            valeur={telephone} // Valeur de l'état
-            onChangeText={setTelephone} // Met l'état à jour
             keyboardType="phone-pad" // Clavier numérique
             placeholder="+237 690 000 000" // Exemple de la maquette
             icone="call-outline" // Icône de la maquette
           />
-          <ChampSaisie
+          <ChampFormulaire
+            control={control} // Le formulaire
+            nom="motDePasse" // Champ du schéma
             etiquette="Mot de passe" // Calque Étiquette
             indication="8 car. min" // Texte à droite de l'étiquette
-            valeur={motDePasse} // Valeur de l'état
-            onChangeText={setMotDePasse} // Met l'état à jour
             motDePasse // Caractères masqués, avec l'œil
             placeholder="8 caractères minimum" // Indication
             icone="lock-closed-outline" // Icône de la maquette
-            etat={motDePasseTropCourt ? "erreur" : "normal"} // État Erreur entre 1 et 7 caractères
-            message="Le mot de passe doit contenir au moins 8 caractères" // Calque Message
           />
           <View style={styles.conditions} /* Mention des conditions générales */>
             <Ionicons name="shield-checkmark" size={18} color={palette.primaire} />
@@ -115,8 +122,7 @@ export function EcranInscription() {
           <Bouton
             libelle="Créer mon compte" // Calque Libellé
             icone="arrow-forward" // Flèche de la maquette
-            etat={formulaireValide ? "normal" : "desactive"} // Désactivé tant que le formulaire n'est pas valide
-            onPress={() => router.replace("/accueil")} // Ouvre l'écran 4. Accueil (le vrai compte arrive au chapitre 5)
+            onPress={creerCompte} // Valide le formulaire : les messages s'affichent sous les champs à corriger
           />
         </ScrollView>
         {clavierVisible ? null : ( // Rendu conditionnel : le lien est masqué quand le clavier est ouvert

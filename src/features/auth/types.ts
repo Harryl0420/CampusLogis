@@ -1,2 +1,4 @@
 // Les types de données de la fonctionnalité « auth »
-export type Role = "etudiant" | "bailleur"; // Les deux types d'utilisateur de CampusLogis
+import type { ValeursInscription } from "./schemas"; // Type déduit du schéma de l'inscription
+
+export type Role = ValeursInscription["role"]; // "etudiant" | "bailleur" : écrit une seule fois, dans le schéma
