@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
 import { zodResolver } from "@hookform/resolvers/zod"; // Fait valider le formulaire par un schéma Zod
 import { useLocalSearchParams, useRouter } from "expo-router"; // Paramètres de l'adresse et navigation
 import { useForm, useWatch } from "react-hook-form"; // Gestion du formulaire et lecture d'une valeur
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native"; // Composants et outils
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from "react-native"; // Composants et outils
 import { Bouton } from "@/composants/Bouton"; // Composant Bouton
 import { ChampFormulaire } from "@/composants/ChampFormulaire"; // Champ de saisie relié au formulaire
 import { Ecran } from "@/composants/Ecran"; // Cadre commun des écrans
@@ -43,12 +43,11 @@ export function EcranDemandeVisite() {
   }
 
   const envoyer = (valeurs: ValeursDemandeVisite) => {
-    // Appelée seulement si tous les champs respectent le schéma
-    Alert.alert(
-      "Demande envoyée", // Titre de la fenêtre
-      `Visite de « ${logement.nom} » le ${valeurs.date}, ${valeurs.creneau}.`, // Résumé des valeurs validées
-      [{ text: "OK", onPress: () => router.back() }], // Pour l'instant on revient au Détail ; le Paiement arrive à l'étape 10
-    ); // Fin de l'alerte
+    // Appelée seulement si tous les champs respectent le schéma : le parcours continue vers le Paiement
+    router.push({
+      pathname: "/paiement/[id]", // Écran 7. Paiement
+      params: { id: logement.id, date: valeurs.date, creneau: valeurs.creneau }, // L'identifiant, plus la date et le créneau choisis
+    }); // Le montant sera retrouvé dans les données à partir de l'identifiant
   }; // Fin d'envoyer
 
   return (

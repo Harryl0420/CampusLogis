@@ -1,13 +1,7 @@
 import { z } from "zod"; // Bibliothèque de validation
+import { lireDate } from "@/utils/dates"; // Lecture d'une date JJ/MM/AAAA
+import { champTelephone } from "@/utils/validation"; // Règle partagée du numéro de téléphone
 import { creneauxVisite } from "./constantes"; // Créneaux proposés
-
-// Transforme « 25/11/2026 » en date, ou null si le jour n'existe pas (31/02/2026 par exemple)
-function lireDate(texte: string): Date | null {
-  const [jour, mois, annee] = texte.split("/").map(Number); // Trois nombres : jour, mois, année
-  const date = new Date(annee, mois - 1, jour); // En JavaScript, janvier est le mois 0
-  const existe = date.getFullYear() === annee && date.getMonth() === mois - 1 && date.getDate() === jour; // Le 31/02 deviendrait le 03/03 : on le refuse
-  return existe ? date : null; // La date, ou null
-}
 
 // Vrai si la date est aujourd'hui ou plus tard
 function pasDansLePasse(texte: string): boolean {
@@ -33,3 +27,11 @@ export const schemaDemandeVisite = z.object({
 }); // Fin du schéma
 
 export type ValeursDemandeVisite = z.infer<typeof schemaDemandeVisite>; // Type déduit du schéma
+
+// Schéma de l'écran 7. Paiement : l'opérateur choisi et le numéro à débiter
+export const schemaPaiement = z.object({
+  operateur: z.enum(["mtn", "orange"]), // Une des deux lignes de la maquette
+  numero: champTelephone, // Même règle que l'inscription, écrite une seule fois dans src/utils/validation.ts
+}); // Fin du schéma
+
+export type ValeursPaiement = z.infer<typeof schemaPaiement>; // { operateur: "mtn" | "orange"; numero: string }

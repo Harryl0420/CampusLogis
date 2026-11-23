@@ -18,6 +18,7 @@ type Props = Omit<TextInputProps, "value" | "style"> & {
   message?: string; // Calque « Message », affiché seulement en état Erreur
   icone?: NomIcone; // Icône à gauche de la valeur (téléphone, cadenas...)
   iconeFin?: NomIcone; // Icône à droite de la valeur (calendrier, horloge...)
+  prefixe?: string; // Texte fixe devant la valeur, comme l'indicatif « +237 »
   indication?: string; // Petit texte à droite de l'étiquette, comme « 8 car. min » ou « Optionnel »
   obligatoire?: boolean; // Ajoute « * » après l'étiquette et « Requis » à droite
   motDePasse?: boolean; // Masque la valeur et ajoute l'œil pour l'afficher
@@ -31,6 +32,7 @@ export function ChampSaisie({
   message, // Calque Message
   icone, // Icône de gauche
   iconeFin, // Icône de droite
+  prefixe, // Texte fixe devant la valeur
   indication, // Texte à droite de l'étiquette
   obligatoire = false, // Champ obligatoire
   motDePasse = false, // Champ de mot de passe
@@ -83,6 +85,7 @@ export function ChampSaisie({
         ]}
       >
         {icone ? <Ionicons name={icone} size={20} color={couleurIcone} /> : null}
+        {prefixe ? <Texte variante="libelle">{prefixe}</Texte> : null}
         <TextInput
           value={valeur} // Texte affiché, fourni par l'écran
           accessibilityLabel={etiquette} // Le lecteur d'écran annonce l'étiquette

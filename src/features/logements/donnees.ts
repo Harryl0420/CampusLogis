@@ -42,6 +42,7 @@ export const logements: readonly Logement[] = [
     ville: "Douala",
     quartier: "Cité-Cicam",
     prix: 45000,
+    arrhes: 10000,
     chargesIncluses: true,
     etiquette: "Charges incluses",
     distanceMetres: 350,
@@ -62,6 +63,7 @@ export const logements: readonly Logement[] = [
     ville: "Douala",
     quartier: "Bonamoussadi",
     prix: 35000,
+    arrhes: 8000,
     chargesIncluses: false,
     etiquette: "Meublée",
     distanceMetres: 1200,
@@ -82,6 +84,7 @@ export const logements: readonly Logement[] = [
     ville: "Douala",
     quartier: "Yassa",
     prix: 28000,
+    arrhes: 6000,
     chargesIncluses: false,
     etiquette: "Wifi haut débit",
     distanceMetres: 200,
@@ -102,6 +105,7 @@ export const logements: readonly Logement[] = [
     ville: "Douala",
     quartier: "Cité-Cicam",
     prix: 45000,
+    arrhes: 10000,
     chargesIncluses: true,
     etiquette: "Charges incluses",
     distanceMetres: 350,
@@ -116,3 +120,19 @@ export const logements: readonly Logement[] = [
     bailleur: emmanuel,
   },
 ]; // Fin des logements
+
+export const operateursPaiement = [
+  // Les deux lignes « Choisir un moyen de paiement » de la maquette, dans l'ordre
+  {
+    code: "mtn", // Valeur technique du schéma
+    nom: "MTN Mobile Money", // Titre de la ligne
+    detail: "Confirmation instantanée USSD", // Sous-titre de la ligne
+    logo: require("../../../assets/images/paiement/MTNMomo.jpg"), // Logo de l'opérateur
+  },
+  {
+    code: "orange", // Valeur technique du schéma
+    nom: "Orange Money", // Titre de la ligne
+    detail: "Code de validation par SMS", // Sous-titre de la ligne
+    logo: require("../../../assets/images/paiement/OrangeMoney.png"), // Logo de l'opérateur
+  },
+] as const; // Valeurs figées : code vaut exactement "mtn" ou "orange"

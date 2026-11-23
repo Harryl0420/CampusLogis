@@ -35,6 +35,8 @@ export default function RacineLayout() {
       >
         <Stack.Screen name="(auth)" /* Groupe Bienvenue, Connexion, Inscription : sa propre pile */ />
         <Stack.Screen name="(onglets)" /* Groupe des onglets */ />
+        <Stack.Screen name="demande/[id]" /* Formulaire de demande de visite, par-dessus les onglets */ />
+        <Stack.Screen name="paiement/[id]" /* Paiement, par-dessus les onglets */ />
       </Stack>
     </>
   ); // Fin du rendu

@@ -31,6 +31,7 @@ export type Logement = {
   ville: string; // Ville du logement : « Douala »
   quartier: string; // Utilisé par la recherche
   prix: number; // Prix par mois en francs CFA, sans espace ni unité
+  arrhes: number; // Caution à verser pour réserver la visite, frais de dossier inclus
   chargesIncluses: boolean; // « charges comprises » sur le Détail
   etiquette: string; // Mention à droite du prix : « Charges incluses », « Meublée »...
   distanceMetres: number; // Distance au repère, utilisée par le filtre « < 1 km »
