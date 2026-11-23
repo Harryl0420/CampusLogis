@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
-import { router } from "expo-router"; // Navigation entre écrans (détaillée au chapitre 4)
+import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
 import { useState } from "react"; // État local
 import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native"; // Composants et outils
 import { Badge } from "@/composants/Badge"; // Pilule « Espace sécurisé »
@@ -16,6 +16,7 @@ import { useTheme } from "@/theme/useTheme"; // Couleurs du mode actif
 // Écran 2. Connexion : en-tête, marque, titre, deux champs, bouton, lien vers l'inscription et carte d'information
 export function EcranConnexion() {
   const { palette } = useTheme(); // Palette claire ou sombre
+  const router = useRouter(); // Objet de navigation : Expo recommande ce hook dans les composants
   const [telephone, setTelephone] = useState(""); // Numéro saisi
   const [motDePasse, setMotDePasse] = useState(""); // Mot de passe saisi
   const clavierVisible = useClavierVisible(); // Hook personnalisé
@@ -77,7 +78,7 @@ export function EcranConnexion() {
             <Bouton
               libelle="Se connecter" // Calque Libellé
               etat={formulaireRempli ? "normal" : "desactive"} // Prévention des erreurs : désactivé tant qu'un champ est vide
-              onPress={() => router.push("/accueil")} // Ouvre l'écran 4. Accueil (la vraie connexion arrive au chapitre 5)
+              onPress={() => router.replace("/accueil")} // Les onglets remplacent l'authentification : Retour ne ramène pas ici (la vraie connexion arrive au chapitre 5)
             />
           </View>
           <Lien

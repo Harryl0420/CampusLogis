@@ -24,7 +24,7 @@ export default function RacineLayout() {
   if (!policesChargees && !erreurPolices) return null; // Rien à afficher tant que le chargement n'est pas terminé
 
   return (
-    // Fragment : deux éléments côte à côte sans conteneur
+    // Layout racine : la pile principale, qui contient les deux groupes
     <>
       <StatusBar style="auto" /* Icônes foncées en mode clair, claires en mode sombre */ />
       <Stack
@@ -32,7 +32,12 @@ export default function RacineLayout() {
           headerShown: false,
           contentStyle: { backgroundColor: palette.fond },
         }} /* Pas d'en-tête : chaque écran a son titre */
-      />
+      >
+        <Stack.Screen name="(auth)" /* Groupe Bienvenue, Connexion, Inscription : sa propre pile */ />
+        <Stack.Screen name="(onglets)" /* Groupe des onglets */ />
+        <Stack.Screen name="demande/[id]" /* Formulaire de demande de visite, par-dessus les onglets */ />
+        <Stack.Screen name="paiement/[id]" /* Paiement, par-dessus les onglets */ />
+      </Stack>
     </>
   ); // Fin du rendu
 }

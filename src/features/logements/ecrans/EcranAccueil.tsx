@@ -16,9 +16,8 @@ import { BarreRecherche } from "../composants/BarreRecherche"; // Barre de reche
 import { BoutonRond } from "../composants/BoutonRond"; // Cœur posé sur la photo
 import { Filtres } from "../composants/Filtres"; // Rangée de filtres
 import { Note } from "../composants/Note"; // « ★ 4.9 »
-import { logements } from "../donnees"; // Données fictives
 import { useLogements } from "../hooks/useLogements"; // Recherche, filtres, favoris et liste calculée
-import { router } from "expo-router"; // Navigation entre écrans
+import { useRouter } from "expo-router"; // Hook de navigation d'Expo Router
 
 // Espace entre deux cartes de la liste
 function Separateur() {
@@ -91,6 +90,7 @@ function AlerteNouveautes() {
 // Écran 4. Accueil : recherche et filtres fixes, puis la liste des logements qui défile
 export function EcranAccueil() {
   const { palette } = useTheme(); // Palette claire ou sombre
+  const router = useRouter();
   const {
     recherche,
     setRecherche,
@@ -103,10 +103,10 @@ export function EcranAccueil() {
     favoris,
     basculerFavori,
     resultats,
-  } = useLogements(logements); // Toute la logique est dans le hook
+  } = useLogements(); // Toute la logique est dans le hook, qui lit les données par le dépôt
   return (
-    // La barre d'onglets sera ajoutée par Expo Router au chapitre 4
-    <Ecran>
+    // Seul le bord haut est protégé : en bas, la barre d'onglets gère la zone de sécurité
+    <Ecran bords={["top"]}>
       <View style={[styles.bandeau, { backgroundColor: palette.surface }]} /* Recherche et filtres, fixes */>
         <BarreRecherche valeur={recherche} surChangement={setRecherche} />
         <Filtres
@@ -139,7 +139,7 @@ export function EcranAccueil() {
           return (
             <Carte
               titre={item.nom} // Calque Titre : type et quartier
-              onPress={() => router.push({ pathname: "/logement/[id]", params: { id: item.id } })} // Ouvre l'écran 5. Détail de ce logement
+              onPress={() => router.push({ pathname: "/accueil/[id]", params: { id: item.id } })} // Ouvre l'écran 5. Détail dans la pile de l'onglet
               info={formaterPrix(item.prix)} // Calque Info : prix par mois
               detailInfo="/ mois" // Petit texte après le prix
               photos={item.photos} // Carrousel de photos

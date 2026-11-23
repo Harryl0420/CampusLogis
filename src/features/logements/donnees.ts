@@ -1,8 +1,8 @@
-// Données fictives de la séance 3 : elles seront remplacées par celles du backend à la séance 5
+// Données fictives : seul le fichier depot.ts les lit ; à la séance 5, elles seront remplacées par celles du backend
 import type { Bailleur, Equipement, Logement, TypeLogement } from "./types"; // Types de la fonctionnalité
 
 export const typesLogement: readonly TypeLogement[] = ["Studio", "Chambre", "Colocation"]; // Ordre du filtre « Type »
-export const distanceProche = 1000; // Seuil du filtre « < 1 km », en mètres
+export const favorisInitiaux: readonly string[] = ["l1"]; // Logements aimés au départ, comme dans la maquette
 
 const photo1 = require("../../../assets/images/logements/logement-1.jpg"); // Studio moderne
 const photo2 = require("../../../assets/images/logements/logement-2.jpg"); // Chambre « Coup de cœur »
@@ -39,8 +39,10 @@ export const logements: readonly Logement[] = [
     id: "l1",
     nom: "Studio Moderne, Cité-Cicam",
     type: "Studio",
+    ville: "Douala",
     quartier: "Cité-Cicam",
     prix: 45000,
+    arrhes: 10000,
     chargesIncluses: true,
     etiquette: "Charges incluses",
     distanceMetres: 350,
@@ -58,8 +60,10 @@ export const logements: readonly Logement[] = [
     id: "l2",
     nom: "Chambre meublée, Bonamoussadi",
     type: "Chambre",
+    ville: "Douala",
     quartier: "Bonamoussadi",
     prix: 35000,
+    arrhes: 8000,
     chargesIncluses: false,
     etiquette: "Meublée",
     distanceMetres: 1200,
@@ -77,8 +81,10 @@ export const logements: readonly Logement[] = [
     id: "l3",
     nom: "Chambre en Colocation, Yassa",
     type: "Colocation",
+    ville: "Douala",
     quartier: "Yassa",
     prix: 28000,
+    arrhes: 6000,
     chargesIncluses: false,
     etiquette: "Wifi haut débit",
     distanceMetres: 200,
@@ -96,8 +102,10 @@ export const logements: readonly Logement[] = [
     id: "l4",
     nom: "Studio Confort Cité-Cicam",
     type: "Studio",
+    ville: "Douala",
     quartier: "Cité-Cicam",
     prix: 45000,
+    arrhes: 10000,
     chargesIncluses: true,
     etiquette: "Charges incluses",
     distanceMetres: 350,
@@ -112,3 +120,19 @@ export const logements: readonly Logement[] = [
     bailleur: emmanuel,
   },
 ]; // Fin des logements
+
+export const operateursPaiement = [
+  // Les deux lignes « Choisir un moyen de paiement » de la maquette, dans l'ordre
+  {
+    code: "mtn", // Valeur technique du schéma
+    nom: "MTN Mobile Money", // Titre de la ligne
+    detail: "Confirmation instantanée USSD", // Sous-titre de la ligne
+    logo: require("../../../assets/images/paiement/MTNMomo.jpg"), // Logo de l'opérateur
+  },
+  {
+    code: "orange", // Valeur technique du schéma
+    nom: "Orange Money", // Titre de la ligne
+    detail: "Code de validation par SMS", // Sous-titre de la ligne
+    logo: require("../../../assets/images/paiement/OrangeMoney.png"), // Logo de l'opérateur
+  },
+] as const; // Valeurs figées : code vaut exactement "mtn" ou "orange"

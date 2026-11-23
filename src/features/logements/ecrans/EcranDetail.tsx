@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons"; // Icônes Ionicons
-import { router, useLocalSearchParams } from "expo-router"; // Navigation et lecture du paramètre de l'adresse
+import { useLocalSearchParams, useRouter } from "expo-router"; // Paramètres de l'adresse et navigation
 import { useState } from "react"; // État local
 import { ScrollView, Share, StyleSheet, View } from "react-native"; // Défilement, partage, conteneur et outils
 import { Badge } from "@/composants/Badge"; // Pastilles d'équipements et badge « Logement vérifié »
@@ -16,20 +16,21 @@ import { formaterPrix } from "@/utils/formaterPrix"; // 45000 devient « 45 000 
 import { BoutonRond } from "../composants/BoutonRond"; // Retour, partager, cœur
 import { CarteBailleur } from "../composants/CarteBailleur"; // Carte du bailleur
 import { Note } from "../composants/Note"; // « ★ 4.9 »
-import { logements } from "../donnees"; // Données fictives
+import { useLogement } from "../hooks/useLogement"; // Le logement de l'adresse, fourni par le dépôt
 
 // Écran 5. Détail : photos, titre, distance, prix, équipements, bailleur, campus, puis barre de réservation fixe
 export function EcranDetail() {
   const { palette } = useTheme(); // Palette claire ou sombre
-  const { id } = useLocalSearchParams<{ id: string }>(); // Paramètre de l'adresse : « l1 » dans /logement/l1
+  const router = useRouter();
+  const { id } = useLocalSearchParams<{ id: string }>(); // Paramètre de l'adresse : « l1 » dans /accueil/l1
   const [favori, setFavori] = useState(false); // Cœur du Détail (partagé avec l'Accueil au chapitre 5)
-  const logement = logements.find((l) => l.id === id); // Logement correspondant, ou undefined
+  const logement = useLogement(id); // Logement correspondant, ou undefined
   const retour = () => (router.canGoBack() ? router.back() : router.replace("/accueil")); // Écran précédent, ou Accueil
 
   if (!logement) {
     // Adresse inconnue : on l'explique au lieu d'afficher un écran vide
     return (
-      <Ecran>
+      <Ecran bords={["top"]}>
         <View style={styles.introuvable}>
           <Texte variante="sousTitre">Logement introuvable</Texte>
           <Texte couleur="texteSecondaire" style={styles.centre}>
@@ -47,8 +48,8 @@ export function EcranDetail() {
   };
 
   return (
-    // Le contenu défile, la barre de réservation reste en bas
-    <Ecran>
+    // Le contenu défile, la barre de réservation reste au-dessus de la barre d'onglets, qui gère la zone de sécurité du bas
+    <Ecran bords={["top"]}>
       <ScrollView style={styles.plein} contentContainerStyle={styles.contenu} showsVerticalScrollIndicator={false}>
         <View
           style={[styles.photo, { backgroundColor: logement.couleurPhoto }]} /* Grande photo, sur toute la largeur */
@@ -160,7 +161,8 @@ export function EcranDetail() {
           <Bouton
             libelle="Réserver une visite"
             icone="calendar-outline"
-            positionIcone="debut" /* Écran 6. Formulaire, plus tard */
+            positionIcone="debut" // Icône avant le libellé
+            onPress={() => router.push({ pathname: "/demande/[id]", params: { id: logement.id } })} // Ouvre l'écran 6. Formulaire
           />
         </View>
       </View>
@@ -213,6 +215,7 @@ const styles = StyleSheet.create({
     marginHorizontal: -espacements.m, // Annule la marge latérale de l'Écran
     paddingHorizontal: espacements.m, // Remet la marge à l'intérieur
     paddingTop: espacements.s + espacements.xs, // 12 dp au-dessus
+    paddingBottom: espacements.s + espacements.xs, // 12 dp au-dessous : la barre d'onglets commence juste après
     flexDirection: "row", // Prix à gauche, bouton à droite
     alignItems: "center", // Centrés verticalement
     gap: espacements.m, // Écart m
